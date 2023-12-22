@@ -30,9 +30,9 @@ class GeoGCNLayer(nn.Module):
         self.g.ndata['f'] = loc_feat
         for srctype, etype, dsttype in self.g.canonical_etypes:
             if etype == 'geo':
-                funcs[etype] = (fn.copy_u('f', 'm'), fn.mean('m', 'geo'))
+                funcs[etype] = (fn.copy_u('f', 'mg'), fn.mean('mg', 'geo'))
             else:
-                funcs[etype] = (fn.u_mul_e('f', 'w', 'm'), fn.sum('m', 'trans'))
+                funcs[etype] = (fn.u_mul_e('f', 'w', 'mt'), fn.sum('mt', 'trans'))
                     
         self.g.multi_update_all(funcs, 'sum')
         geo = self.g.ndata['geo'].unsqueeze(1)
